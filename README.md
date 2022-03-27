@@ -1,2 +1,3 @@
 # GithubAPITest
-Test for Github API
+- Learn Github APIs.
+- Test for Github API.
