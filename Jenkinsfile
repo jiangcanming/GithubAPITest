@@ -7,5 +7,9 @@ node {
     	])
 	])
 
-	echo "comment"
+	if (env.GITHUB_COMMENT == null) {
+		return
+	}
+
+	println env.GITHUB_COMMENT
 }
