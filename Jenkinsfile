@@ -1,5 +1,11 @@
 #!groovy
 
 node {
-	echo "hello world"
+	properties([
+    	pipelineTriggers([
+        	issueCommentTrigger('([\\s\\S]*)')
+    	])
+	])
+
+	echo "comment"
 }
