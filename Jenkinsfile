@@ -3,13 +3,9 @@
 node {
 	properties([
     	pipelineTriggers([
-        	issueCommentTrigger('([\\s\\S]*)')
+        	pullRequestTrigger()
     	])
 	])
 
-	if (env.GITHUB_COMMENT == null) {
-		return
-	}
-
-	println env.GITHUB_COMMENT
+	println "excute"
 }
