@@ -3,7 +3,8 @@
 node {
 	properties([
     	pipelineTriggers([
-        	pullRequestTrigger()
+        	// pullRequestTrigger()
+        	issueCommentTrigger('([\\s\\S]*)')
     	])
 	])
 
