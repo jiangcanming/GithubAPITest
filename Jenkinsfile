@@ -55,11 +55,9 @@ node {
 		set -e
 		api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
 		echo "api = \$api"
-		json=\$(curl -s \
+		curl -s \
 			-H "Accept: application/vnd.github.v3+json" \
-			\${api})
-		echo "curl 结束"
-		echo \$json
+			\${api}
 		""",
 		returnStdout: true
 	).trim()
