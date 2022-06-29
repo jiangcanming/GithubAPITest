@@ -57,7 +57,7 @@ node {
 		echo "api = \$api"
 		json=\$(curl -s \
 			-H "Accept: application/vnd.github.v3+json" \
-			\${api} | jq .)
+			\${api})
 		echo "curl 结束"
 		echo \$json
 		""",
