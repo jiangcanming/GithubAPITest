@@ -1,5 +1,12 @@
 #!groovy
 
+@NonCPS
+def matchMilestone(String text) {
+	def prTitleMatchMilestoneRegx = /.*\[([0-9]+\.[0-9]+\.[0-9]+)\].*/
+	def matcher = text =~ prTitleMatchMilestoneRegx
+ 	matcher ? matcher[0][1] : null
+}
+
 node {
 	properties([
     	pipelineTriggers([
@@ -14,17 +21,11 @@ node {
 
 	final String invalidTitleLabel = "do-not-merge/invalid-pr-title"
 	def prTitleValidRegx = /(?i)\[.*\]\[.*\]\[.*\].*/
-	def prTitleMatchMilestoneRegx = /.*\[([0-9]+\.[0-9]+\.[0-9]+)\].*/
-
+	
 	def hasInvalidTitleLabel = pullRequest.labels.contains(invalidTitleLabel)
 	def isValidTitle = pullRequest.title ==~ prTitleValidRegx
-
-	def matcher = pullRequest.title =~ prTitleMatchMilestoneRegx
-	String matchedMilestone = ""
-	if (matcher) {
-		matchedMilestone = matcher[0][1]
-		println "matchedMilestone: " + matchedMilestone
-	}
+	def matchedMilestone = matchMilestone(text: pullRequest.title)
+	println "matchedMilestone: " + matchedMilestone
 	if (matchedMilestone == "" || matchedMilestone == null) {
 		isValidTitle = false
 	}
