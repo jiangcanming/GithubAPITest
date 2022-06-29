@@ -22,7 +22,7 @@ node {
 	def matcher = pullRequest.title =~ prTitleMatchMilestoneRegx
 	String matchedMilestone = ""
 	if (matcher) {
-		matchedMilestone = matcher.group(1)
+		matchedMilestone = matcher[0][1]
 	}
 	if (matchedMilestone == "" || matchedMilestone == null) {
 		isValidTitle = false
