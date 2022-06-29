@@ -54,7 +54,6 @@ node {
 	def jsonString = sh(script: """
 		set -e
 		api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
-		echo "api = \$api"
 		curl -s \
 			-H "Accept: application/vnd.github.v3+json" \
 			\${api}
@@ -62,15 +61,22 @@ node {
 		returnStdout: true
 	).trim()
 
-	println jsonString
-
-	// def milestoneMap = [:]
-	// for (m in pullRequest.milestone) {
-	// 	milestoneMap[m.title] = m.number
-	// }
-	// def milestoneNumber = milestoneMap[milestone]
-	// if (milestoneNumber == null) {
-	// 	return
-	// }
-	// pullRequest.milestone = milestoneNumber
+	def milestonsMap = [:]
+	try {
+		def jsonSlurper = JsonSlurper()
+		def milestoneList = jsonSlurper.parseText(jsonString)
+		if (milestoneList != null && !milestoneList.isEmpty()) {
+			for(m in milestoneList) {
+				milestonsMap[m.title] = m.number
+			}
+		}
+	} catch(Exception ex) {
+		println "parse json fail, error: ${ex}"
+	}
+	
+	def milestoneNumber = milestonsMap[matchedMilestone]
+	println "milestoneNumber :" + milestoneNumber
+	if (milestoneNumber) {
+		pullRequest.milestone = milestoneNumber
+	}
 }
