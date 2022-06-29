@@ -16,7 +16,7 @@ node {
 	def hasInvalidTitleLabel = pullRequest.labels.contains(invalidTitleLabel)
 	def isInvalidTitle = pullRequest.title ==~ "((?i)(clos(?:e[sd]?))|(fix(?:(es|ed)?))|(resolv(?:e[sd]?)))[\\s:]+(\\w+/\\w+)?#(\\d+)"
 	def isValidTitle = pullRequest.title ==~ "(?i)\\[.*\\]\\[.*\\]\\[.*\\].*"
-	def matcher = pullRequest.title =~ "*\\[([0-9]+\\.[0-9]+\\.[0-9]+)\\].*"
+	def matcher = pullRequest.title =~ "\\*\\[([0-9]+\\.[0-9]+\\.[0-9]+)\\].*"
 
 	println "hasInvalidTitleLabel: ${hasInvalidTitleLabel}"
 	println "isInvalidTitle: ${isInvalidTitle}"
