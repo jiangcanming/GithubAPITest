@@ -48,7 +48,7 @@ node {
 		return
 	}
 
-	withCredentials([usernamePassword(credentialsId: '214638', 
+	withCredentials([usernamePassword(credentialsId: 'github-app-jaymin', 
 									  usernameVariable: 'GITHUB_APP',
                             		  passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
 		def jsonString = sh(script: """
