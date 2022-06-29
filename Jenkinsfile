@@ -55,10 +55,11 @@ node {
 		def jsonString = sh(script: """
 			set -e
 			api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
-			curl -s \
+			json=\$(curl -s \
 				-H "Accept: application/vnd.github.v3+json" \
 				-H "Authorization: token \$GITHUB_ACCESS_TOKEN" \
-				\${api}
+				\${api})
+			echo \$json
 			""",
 			returnStdout: true
 		).trim()
