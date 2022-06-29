@@ -53,12 +53,12 @@ node {
                             		  passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
 		println "fetch milestones"
 		def jsonString = sh(script: """
-			set -e
 			api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
 			json=\$(curl -s \
 				-H "Accept: application/vnd.github.v3+json" \
 				-H "Authorization: token \$GITHUB_ACCESS_TOKEN" \
 				\${api})
+			echo "curl 结束"
 			echo \$json
 			""",
 			returnStdout: true
