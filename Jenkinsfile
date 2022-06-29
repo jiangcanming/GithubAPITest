@@ -45,7 +45,7 @@ node {
 		return
 	}
 
-	println pullRequest.milestone
+	println pullRequest.milestones
 
 	// def milestoneMap = [:]
 	// for (m in pullRequest.milestone) {
