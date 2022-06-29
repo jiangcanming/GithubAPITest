@@ -1,6 +1,5 @@
 #!groovy
 
-@NonCPS
 node {
 	properties([
     	pipelineTriggers([
@@ -49,25 +48,21 @@ node {
 		return
 	}
 
-	withCredentials([usernamePassword(credentialsId: 'github-app-jaymin', 
-									  usernameVariable: 'GITHUB_APP',
-                            		  passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
-		println "fetch milestones"
-		def jsonString = sh(script: """
-			set -e
-			api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
-			echo "api = \$api"
-			json=\$(curl -s \
-				-H "Accept: application/vnd.github.v3+json" \
-				-H "Authorization: token \$GITHUB_ACCESS_TOKEN" \
-				\${api} | jq .)
-			echo "curl 结束"
-			echo \$json
-			""",
-			returnStdout: true
-		).trim()
-		println jsonString
-	}
+	println "fetch milestones"
+	def jsonString = sh(script: """
+		set -e
+		api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
+		echo "api = \$api"
+		json=\$(curl -s \
+			-H "Accept: application/vnd.github.v3+json" \
+			\${api} | jq .)
+		echo "curl 结束"
+		echo \$json
+		""",
+		returnStdout: true
+	).trim()
+
+	println jsonString
 
 	// def milestoneMap = [:]
 	// for (m in pullRequest.milestone) {
