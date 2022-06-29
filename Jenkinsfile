@@ -1,10 +1,10 @@
 #!groovy
 
 @NonCPS
-def matchMilestone(String text) {
+String getMileStoneFromText(String text) {
 	def prTitleMatchMilestoneRegx = /.*\[([0-9]+\.[0-9]+\.[0-9]+)\].*/
 	def matcher = text =~ prTitleMatchMilestoneRegx
- 	matcher ? matcher[0][1] : null
+ 	return matcher ? matcher[0][1] : ""
 }
 
 node {
@@ -24,7 +24,8 @@ node {
 	
 	def hasInvalidTitleLabel = pullRequest.labels.contains(invalidTitleLabel)
 	def isValidTitle = pullRequest.title ==~ prTitleValidRegx
-	def matchedMilestone = matchMilestone(text: pullRequest.title)
+
+	def matchedMilestone = getMileStoneFromText(pullRequest.title)
 	println "matchedMilestone: " + matchedMilestone
 	if (matchedMilestone == "" || matchedMilestone == null) {
 		isValidTitle = false
