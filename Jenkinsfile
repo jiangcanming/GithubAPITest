@@ -5,7 +5,7 @@ node {
     	pipelineTriggers([
     		issueCommentTrigger('([\\s\\S]*)'),
     		pullRequestReview(reviewStates: ['approved']),
-        	pullRequestTrigger()
+        	// pullRequestTrigger()
     	])
 	])
 
