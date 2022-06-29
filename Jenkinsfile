@@ -19,10 +19,8 @@ node {
 	def hasInvalidTitleLabel = pullRequest.labels.contains(invalidTitleLabel)
 	def isValidTitle = pullRequest.title ==~ prTitleValidRegx
 
-	def matcher = pullRequest.title =~ prTitleMatchMilestoneRegx
-	println matcher
 	String matchedMilestone = ""
-	if (matcher) {
+	if (matcher = pullRequest.title =~ prTitleMatchMilestoneRegx) {
 		matchedMilestone = matcher[0][1]
 		println "matchedMilestone: " + matchedMilestone
 	}
