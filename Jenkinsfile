@@ -3,9 +3,16 @@
 node {
 	properties([
     	pipelineTriggers([
-        	issueCommentTrigger('([\\s\\S]*)')
+    		issueCommentTrigger('([\\s\\S]*)'),
+        	pullRequestTrigger(pullRequestStates: ['opened', 'edited', 'reopened'])
     	])
 	])
 
-	echo "comment"
+	println "excute"
+
+	if (env.GITHUB_COMMENT != null) {
+		println "issueCommentTrigger trigge"
+	} else {
+		println "pullRequestTrigger trigge"
+	}
 }
