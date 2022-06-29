@@ -51,20 +51,20 @@ node {
 	}
 
 	println "fetch milestones"
-	// def jsonString = sh(script: """
-	// 	set -e
-	// 	api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
-	// 	echo "api = \$api"
-	// 	json=\$(curl -s \
-	// 		-H "Accept: application/vnd.github.v3+json" \
-	// 		\${api} | jq .)
-	// 	echo "curl 结束"
-	// 	echo \$json
-	// 	""",
-	// 	returnStdout: true
-	// ).trim()
+	def jsonString = sh(script: """
+		set -e
+		api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
+		echo "api = \$api"
+		json=\$(curl -s \
+			-H "Accept: application/vnd.github.v3+json" \
+			\${api} | jq .)
+		echo "curl 结束"
+		echo \$json
+		""",
+		returnStdout: true
+	).trim()
 
-	// println jsonString
+	println jsonString
 
 	// def milestoneMap = [:]
 	// for (m in pullRequest.milestone) {
