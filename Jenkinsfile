@@ -13,14 +13,15 @@ node {
 	}
 
 	final String invalidTitleLabel = "do-not-merge/invalid-pr-title"
-	final String prTitleValidRegx = "(?i)\\[.*\\]\\[.*\\]\\[.*\\].*"
-	final String prTitleMatchMilestoneRegx = "\\*\\[([0-9]+\\.[0-9]+\\.[0-9]+)\\].*"
+	def prTitleValidRegx = /(?i)\[.*\]\[.*\]\[.*\].*/
+	def prTitleMatchMilestoneRegx = /.*\[([0-9]+\.[0-9]+\.[0-9]+)\].*/
 
 	def hasInvalidTitleLabel = pullRequest.labels.contains(invalidTitleLabel)
 	def isValidTitle = pullRequest.title ==~ prTitleValidRegx
 
+	def matcher = pullRequest.title =~ prTitleMatchMilestoneRegx
 	String matchedMilestone = ""
-	if (matcher = pullRequest.title =~ prTitleMatchMilestoneRegx) {
+	if (matcher) {
 		matchedMilestone = matcher[0][1]
 		println "matchedMilestone: " + matchedMilestone
 	}
