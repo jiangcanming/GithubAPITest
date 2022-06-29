@@ -21,6 +21,7 @@ node {
 	println "hasInvalidTitleLabel: ${hasInvalidTitleLabel}"
 	println "isInvalidTitle: ${isInvalidTitle}"
 	println "isValidTitle: ${isValidTitle}"
+	println matcher
 
 	while(matcher.find()) {
 		println matcher.group()
@@ -31,9 +32,8 @@ node {
 	// 	// TODO：删除评论
 	// }
 
-	// if (isInvalidTitle || !isCustomTitle) {
+	// if (!hasInvalidTitleLabel && (isInvalidTitle || !isCustomTitle)) {
 	// 	pullRequest.addLabels([invalidTitleLabel])
-	// 	// TODO: 添加评论
 	// }
 
 	// if groups == nil {
