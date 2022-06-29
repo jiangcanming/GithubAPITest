@@ -4,17 +4,16 @@ node {
 	properties([
     	pipelineTriggers([
     		issueCommentTrigger('([\\s\\S]*)'),
-        	pullRequestTrigger(pullRequestStates: ['open', 'edited', 'reopened'])
+        	pullRequestTrigger(pullRequestStates: ['opened', 'edited', 'reopened'])
     	])
 	])
 
-	def triggerCause = currentBuild.rawBuild.getCause(org.jenkinsci.plugins.pipeline.github.trigger.pullRequestCause)
+	println "excute"
 
-	if (triggerCause) {
-	    echo("Build was started by pullRequestCause")
+	if (env.GITHUB_COMMENT != null) {
+		println "issueCommentTrigger trigge"
 	} else {
-	    echo('Build was not started by a pullRequestCause')
+		println "pullRequestTrigger trigge"
 	}
 
-	println "excute"
 }
