@@ -1,5 +1,6 @@
 #!groovy
 
+@NonCPS
 node {
 	properties([
     	pipelineTriggers([
