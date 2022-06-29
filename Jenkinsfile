@@ -20,9 +20,9 @@ node {
 	def isValidTitle = pullRequest.title ==~ prTitleValidRegx
 
 	def matcher = pullRequest.title =~ prTitleMatchMilestoneRegx
+	println matcher
 	String matchedMilestone = ""
 	if (matcher) {
-		println matcher
 		matchedMilestone = matcher[0][1]
 		println "matchedMilestone: " + matchedMilestone
 	}
