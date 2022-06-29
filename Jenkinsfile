@@ -51,6 +51,7 @@ node {
 	withCredentials([usernamePassword(credentialsId: 'github-app-jaymin', 
 									  usernameVariable: 'GITHUB_APP',
                             		  passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+		println "fetch milestones"
 		def jsonString = sh(script: """
 			set -e
 			api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
