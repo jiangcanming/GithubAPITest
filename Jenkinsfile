@@ -32,20 +32,37 @@ node {
 	println "hasInvalidTitleLabel: ${hasInvalidTitleLabel}"
 	println "isValidTitle: ${isValidTitle}"
 
-	if (hasInvalidTitleLabel && isValidTitle) {
-		pullRequest.removeLabel(invalidTitleLabel)
-		// TODO: 删除评论
-	}
-
-	if (!hasInvalidTitleLabel && !isValidTitle) {
-		pullRequest.addLabels([invalidTitleLabel])
+	if (isValidTitle) {
+		if (hasInvalidTitleLabel) {
+			pullRequest.removeLabel(invalidTitleLabel)
+			// TDDO: 删除评论
+		}
+	} else {
+		if (!hasInvalidTitleLabel) {
+			pullRequest.addLabels([invalidTitleLabel])
+		}
+		// TODO: 添加评论
 	}
 
 	if (matchedMilestone == "" || matchedMilestone == null) {
 		return
 	}
 
-	println pullRequest.milestone
+	withCredentials([usernamePassword(credentialsId: '214638', 
+									  usernameVariable: 'GITHUB_APP',
+                            		  passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+		def jsonString = sh(script: """
+			set -e
+			api="https://api.github.com/repos/jiangcanming/GithubAPITest/milestones"
+			curl -s \
+				-H "Accept: application/vnd.github.v3+json" \
+				-H "Authorization: token \$GITHUB_ACCESS_TOKEN" \
+				\${api}
+			""",
+			returnStdout: true
+		).trim()
+		println jsonString
+	}
 
 	// def milestoneMap = [:]
 	// for (m in pullRequest.milestone) {
