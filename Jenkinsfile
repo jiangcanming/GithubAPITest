@@ -12,35 +12,40 @@ node {
 		return;
 	}
 
-	def invalidTitleLabel = "do-not-merge/invalid-pr-title"
+	final String invalidTitleLabel = "do-not-merge/invalid-pr-title"
+	final String prTitleValidRegx = "(?i)\\[.*\\]\\[.*\\]\\[.*\\].*"
+	final String prTitleMatchMilestoneRegx = "*\\[([0-9]+\\.[0-9]+\\.[0-9]+)\\].*"
+
 	def hasInvalidTitleLabel = pullRequest.labels.contains(invalidTitleLabel)
-	def isInvalidTitle = pullRequest.title ==~ "((?i)(clos(?:e[sd]?))|(fix(?:(es|ed)?))|(resolv(?:e[sd]?)))[\\s:]+(\\w+/\\w+)?#(\\d+)"
-	def isValidTitle = pullRequest.title ==~ "(?i)\\[.*\\]\\[.*\\]\\[.*\\].*"
-	def matcher = pullRequest.title =~ "\\*\\[([0-9]+\\.[0-9]+\\.[0-9]+)\\].*"
+	def isValidTitle = pullRequest.title ==~ prTitleValidRegx
 
-	println "hasInvalidTitleLabel: ${hasInvalidTitleLabel}"
-	println "isInvalidTitle: ${isInvalidTitle}"
-	println "isValidTitle: ${isValidTitle}"
-	println matcher
-
-	while(matcher.find()) {
-		println matcher.group()
+	def matcher = pullRequest.title =~ prTitleMatchMilestoneRegx
+	String matchedMilestone = ""
+	if (matcher) {
+		matchedMilestone = matcher.group(1)
+	}
+	if (matchedMilestone == "" || matchedMilestone == null) {
+		isValidTitle = false
 	}
 
-	// if (hasInvalidTitleLabel && isCustomTitle && !isInvalidTitle) {
-	// 	pullRequest.removeLabel(invalidTitleLabel)
-	// 	// TODO：删除评论
-	// }
+	println "hasInvalidTitleLabel: ${hasInvalidTitleLabel}"
+	println "isValidTitle: ${isValidTitle}"
 
-	// if (!hasInvalidTitleLabel && (isInvalidTitle || !isCustomTitle)) {
-	// 	pullRequest.addLabels([invalidTitleLabel])
-	// }
+	if (hasInvalidTitleLabel && isValidTitle) {
+		pullRequest.removeLabel(invalidTitleLabel)
+		// TODO: 删除评论
+	}
 
-	// if groups == nil {
-	// 	return
-	// }
+	if (!hasInvalidTitleLabel && !isValidTitle) {
+		pullRequest.addLabels([invalidTitleLabel])
+	}
 
-	// def milestone = groups[0]
+	if (matchedMilestone == "" || matchedMilestone == null) {
+		return
+	}
+
+	println pullRequest.milestone
+
 	// def milestoneMap = [:]
 	// for (m in pullRequest.milestone) {
 	// 	milestoneMap[m.title] = m.number
